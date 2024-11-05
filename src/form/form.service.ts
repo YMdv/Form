@@ -59,7 +59,7 @@ export class FormService {
     if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
     let sum = 0;
-    let remainder;
+    let remainder: number;
 
     for (let i = 1; i <= 9; i++) {
       sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
