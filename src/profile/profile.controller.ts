@@ -1,4 +1,9 @@
 import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { ProfileService } from './profile.service';
 
-@Controller()
-export class ProfileController {}
+@ApiTags('Profile')
+@Controller('profile')
+export class ProfileController {
+  constructor(private readonly profileService: ProfileService) {}
+}
