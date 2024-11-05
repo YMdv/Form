@@ -15,19 +15,34 @@ describe('FormService', () => {
   let formService: FormService;
   let formRepository: Repository<Form>;
 
+  const queryBuilderMock = {
+    innerJoin: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    getOne: jest.fn(),
+  };
+
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       providers: [
         FormService,
         {
           provide: getRepositoryToken(Form),
-          useClass: Repository,
+          useValue: {
+            ...jest.fn(),
+            create: jest.fn(),
+            save: jest.fn(),
+            createQueryBuilder: jest.fn(() => queryBuilderMock),
+          },
         },
       ],
     }).compile();
 
     formService = moduleRef.get<FormService>(FormService);
     formRepository = moduleRef.get<Repository<Form>>(getRepositoryToken(Form));
+
+    queryBuilderMock.innerJoin.mockClear();
+    queryBuilderMock.where.mockClear();
+    queryBuilderMock.getOne.mockClear();
   });
 
   it('should be defined', () => {
@@ -35,6 +50,22 @@ describe('FormService', () => {
   });
 
   describe('createForm', () => {
+    it('should throw an error if the CPF already exists', async () => {
+      jest.spyOn(formService as any, 'isCpfExists').mockResolvedValueOnce(true);
+      await expect(formService.createForm(validIndividualDto)).rejects.toThrow(
+        new BadRequestException('A form with this CPF already exists'),
+      );
+    });
+
+    it('should throw an error if the CNPJ already exists', async () => {
+      jest
+        .spyOn(formService as any, 'isCnpjExists')
+        .mockResolvedValueOnce(true);
+      await expect(formService.createForm(validLegalPersonDto)).rejects.toThrow(
+        new BadRequestException('A form with this CNPJ already exists'),
+      );
+    });
+
     it('should throw an error if acceptTerms is false', async () => {
       await expect(
         formService.createForm({ ...validIndividualDto, acceptTerms: false }),
