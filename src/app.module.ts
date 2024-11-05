@@ -15,7 +15,7 @@ config();
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get('TYPEORM_HOST'),
-        port: configService.get('TYPEORM_PORT'),
+        port: configService.get<number>('TYPEORM_PORT'),
         username: configService.get('TYPEORM_USERNAME'),
         password: configService.get('TYPEORM_PASSWORD'),
         database: configService.get('TYPEORM_DATABASE'),
