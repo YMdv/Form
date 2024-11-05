@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FormService } from './form.service';
 import { CreateFormDto } from './dto/createForm.dto';
 import { FormDto } from './dto/form.dto';
@@ -16,6 +16,7 @@ export class FormController {
     description: 'Form created successfully',
     type: FormDto,
   })
+  @ApiBody({ type: CreateFormDto })
   @Post()
   async createForm(@Body() createFormDto: CreateFormDto) {
     return this.formService.createForm(createFormDto);

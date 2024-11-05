@@ -11,7 +11,7 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle(`WeFit Form - ${process.env.NODE_ENV}`)
-    .setDescription('Back-end do teste relacionado ao form')
+    .setDescription('Back-end responsible for managing form data')
     .setVersion(packageFile.version)
     .addBearerAuth()
     .addTag('Back-end')
