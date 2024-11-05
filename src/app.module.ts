@@ -1,3 +1,6 @@
+import { AddressModule } from './address/address.module';
+import { ProfileModule } from './profile/profile.module';
+import { FormModule } from './form/form.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,6 +24,9 @@ config();
         autoLoadEntities: true,
       }),
     }),
+    FormModule,
+    ProfileModule,
+    AddressModule,
   ],
 })
 export class AppModule {}
