@@ -18,6 +18,19 @@ export class FormService {
       );
     }
 
+    if (createFormDto.type === 'Individual' && createFormDto.profile.cpf) {
+      if (await this.isCpfExists(createFormDto.profile.cpf)) {
+        throw new BadRequestException('A form with this CPF already exists');
+      }
+    } else if (
+      createFormDto.type === 'LegalPerson' &&
+      createFormDto.profile.cnpj
+    ) {
+      if (await this.isCnpjExists(createFormDto.profile.cnpj)) {
+        throw new BadRequestException('A form with this CNPJ already exists');
+      }
+    }
+
     if (createFormDto.type === 'Individual') {
       if (!createFormDto.profile.cpf) {
         throw new BadRequestException('CPF is required for individuals');
@@ -52,6 +65,26 @@ export class FormService {
 
     const newForm = this.formRepository.create(createFormDto);
     return this.formRepository.save(newForm);
+  }
+
+  private async isCpfExists(cpf: string): Promise<boolean> {
+    const existingForm = await this.formRepository
+      .createQueryBuilder('form')
+      .innerJoin('form.profile', 'profile')
+      .where('profile.cpf = :cpf', { cpf })
+      .getOne();
+
+    return !!existingForm;
+  }
+
+  private async isCnpjExists(cnpj: string): Promise<boolean> {
+    const existingForm = await this.formRepository
+      .createQueryBuilder('form')
+      .innerJoin('form.profile', 'profile')
+      .where('profile.cnpj = :cnpj', { cnpj })
+      .getOne();
+
+    return !!existingForm;
   }
 
   private isValidCPF(cpf: string): boolean {
