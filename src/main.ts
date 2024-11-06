@@ -10,11 +10,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
-    .setTitle(`WeFit Form - ${process.env.NODE_ENV}`)
+    .setTitle(`Form`)
     .setDescription('Back-end responsible for managing form data')
     .setVersion(packageFile.version)
     .addBearerAuth()
-    .addTag('Back-end')
     .build();
 
   app.useGlobalPipes(new ValidationPipe());

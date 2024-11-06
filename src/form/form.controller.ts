@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiCreatedResponse,
   ApiOperation,
@@ -20,6 +21,20 @@ export class FormController {
   @ApiCreatedResponse({
     description: 'Form created successfully',
     type: FormDto,
+  })
+  @ApiBadRequestResponse({
+    description:
+      'Form validation errors. Possible messages: \n' +
+      '- Form submission is only allowed if terms are accepted\n' +
+      '- CPF is required for individuals\n' +
+      '- CNPJ should not be provided for individuals\n' +
+      '- Invalid CPF\n' +
+      '- CNPJ is required for legal entities\n' +
+      '- CPF should not be provided for legal entities\n' +
+      '- Invalid CNPJ\n' +
+      '- Invalid cell phone number\n' +
+      '- A form with this CPF already exists\n' +
+      '- A form with this CNPJ already exists',
   })
   @ApiBody({ type: CreateFormDto })
   @Post()

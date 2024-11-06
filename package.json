@@ -1,8 +1,8 @@
 {
-  "name": "wefit-form",
-  "version": "0.0.1",
+  "name": "form",
+  "version": "1.0.0",
   "description": "",
-  "author": "",
+  "author": "Yuri Mancini",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
