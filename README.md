@@ -14,7 +14,7 @@ This backend application is built with Node.js and [NestJS](https://github.com/n
 
 ## Prerequisites
 
-- **Node.js** (v14+)
+- **Node.js** (v20+)
 - **MySQL** (via Docker or local installation)
 - **Yarn**
 
@@ -24,29 +24,32 @@ This backend application is built with Node.js and [NestJS](https://github.com/n
 2. Install dependencies:
 
 ```bash
-$ yarn install```
+$ yarn install
+```
 
 ## Environment Configuration
-This project includes a pre-configured Docker setup for running MySQL. If you wish to customize the MySQL configuration, you can modify the docker-compose.yml file.
+This project includes a pre-configured Docker for running MySQL. If you wish to customize the MySQL configuration, you can modify the docker-compose.yml file.
 
-To use the existing Docker, configure your environment variables in the .env file and run the following command:
-
-```bash
-$ docker-compose up -d
-```
 Create a **.env** file in the root of the project with the following variables:
 ```bash
 # Database configuration
 TYPEORM_HOST=localhost
 TYPEORM_PORT=3306
 TYPEORM_USERNAME=root
-TYPEORM_PASSWORD=yourpassword
-TYPEORM_DATABASE=yourdatabase
+TYPEORM_PASSWORD=password
+TYPEORM_DATABASE=mysql
 
 # Docker MySQL settings
 MYSQLDB_PASSWORD=password
 MYSQLDB_PORT=3306
 MYSQLDB_DATABASE=mysql
+```
+Enter the values you want for your credentials, this is just an example, also available in an env.example file in the project root.
+
+To use the existing Docker, configure your environment variables in the .env file and run the following command:
+
+```bash
+$ docker-compose up -d
 ```
 After configuring the desired credentials and running Docker, it will be necessary to run the migration so that the database is configured with the appropriate tables and relationships:
 ```bash
@@ -54,7 +57,7 @@ $ yarn migration:run
 ```
 
 ## Running the app
-
+After running the migration, the project is ready to be initialized and consumed.
 ```bash
 # development
 $ yarn start
@@ -71,6 +74,13 @@ $ yarn start:prod
 ```bash
 $ yarn run test
 ```
+
+## Routes
+The routes and their respective parameters are available in Swagger UI:
+```bash
+http://localhost:3000/api/#/
+```
+
 
 ## Database Relations
 <p align="center">
