@@ -68,8 +68,7 @@ $ yarn start:prod
 $ yarn run test
 ```
 
-##Database Relations
-
+## Database Relations
 <p align="center">
 <img src="src/images/diagramForm.png">
 </p>
