@@ -67,13 +67,14 @@ $ yarn start:prod
 ```bash
 $ yarn run test
 ```
+
 ##Database Relations
 <p align="center">
 <img src="src/images/diagramForm.png">
 </p>
-## Support
 
-Entre em contato com [Yuri Mancini](https://github.com/YMdv) para mais suporte.
+## Support
+Please contact [Yuri Mancini](https://github.com/YMdv) for further support.
 
 ## Stay in touch
 
