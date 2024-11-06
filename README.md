@@ -48,6 +48,10 @@ MYSQLDB_PASSWORD=password
 MYSQLDB_PORT=3306
 MYSQLDB_DATABASE=mysql
 ```
+After configuring the desired credentials and running Docker, it will be necessary to run the migration so that the database is configured with the appropriate tables and relationships:
+```bash
+$ yarn migration:run
+```
 
 ## Running the app
 
