@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { Form } from './entity/form.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -67,6 +67,21 @@ export class FormService {
     return this.formRepository.save(newForm);
   }
 
+  public async getFormsToName(profileName:string): Promise<Form> {
+    const checkNameExists = await this.formRepository
+      .createQueryBuilder('form')
+      .innerJoinAndSelect('form.profile', 'profile')
+      .innerJoinAndSelect('form.address', 'address')
+      .where('profile.name = :profileName', { profileName } )
+      .getOne()
+
+    if(!checkNameExists) {
+      throw new NotFoundException('Form with to name not exists')
+    }
+
+    return checkNameExists;
+  }
+
   private async isCpfExists(cpf: string): Promise<boolean> {
     const existingForm = await this.formRepository
       .createQueryBuilder('form')
@@ -88,7 +103,7 @@ export class FormService {
   }
 
   private isValidCPF(cpf: string): boolean {
-    cpf = cpf.replace(/[^\d]+/g, '');
+    cpf = cpf.replace(/\D+/g, '');
     if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
     let sum = 0;

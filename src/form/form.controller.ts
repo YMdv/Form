@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -40,5 +40,10 @@ export class FormController {
   @Post()
   async createForm(@Body() createFormDto: CreateFormDto) {
     return this.formService.createForm(createFormDto);
+  }
+
+  @Get('profileName')
+  async getFormsToName(@Param('profileName') profileName: string) {
+    return this.formService.getFormsToName((profileName));
   }
 }
